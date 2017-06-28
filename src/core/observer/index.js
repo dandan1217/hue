@@ -1,5 +1,5 @@
 /* @flow */
-import { extend } from 'shared/util'
+import { extend, isObject } from 'shared/util'
 import Dep from './dep'
 
 export class Observer {

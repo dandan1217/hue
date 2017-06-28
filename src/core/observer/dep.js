@@ -42,7 +42,7 @@ export function pushTarget(_target) {
   if (Dep.target) {
     targetStack.push(Dep.target)
   }
-  target = _target
+  Dep.target = _target
 }
 
 export function popTarget() {

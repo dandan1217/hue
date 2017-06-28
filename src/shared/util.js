@@ -7,13 +7,17 @@ export function remove(arr, obj) {
   }
 }
 
+export function isObject(obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
 export function extend(obj, keys, values) {
-  for(let i = 0, l = keys.length; i < l; i++) {
+  for (let i = 0, l = keys.length; i < l; i++) {
     obj[keys[i]] = values[i]
   }
 }
 
-export function def (obj, key, val, enumerable) {
+export function def(obj, key, val, enumerable) {
   Object.defineProperty(obj, key, {
     value: val,
     enumerable: !!enumerable,

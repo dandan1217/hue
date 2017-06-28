@@ -1,3 +1,7 @@
+/* @flow */
+
+import { isObject } from 'shared/util'
+
 const seenObjects = new Set()
 
 function traverse(val) {
@@ -8,7 +12,7 @@ function traverse(val) {
 function _tarverse(val, seen) {
   const isA = Array.isArray(val)
 
-  if ((!isA(val) && !isObject(val)) ||
+  if ((!isA && !isObject(val)) ||
     !Object.isExtensible(val)) {
     return
   }
