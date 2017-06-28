@@ -1,8 +1,6 @@
 /* @flow */
 import nextTick from './helpers/nexttick'
-import {
-  callHook
-} from 'shared/fake'
+import { callHook } from 'shared/fake'
 
 
 const MAX_UPDATE_COUNT = 100

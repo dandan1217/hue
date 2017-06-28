@@ -1,8 +1,6 @@
 /** @flow */
 
-import {
-  remove
-} from 'shared/util'
+import { remove } from 'shared/util'
 
 let uid = 0
 

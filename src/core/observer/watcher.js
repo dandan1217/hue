@@ -1,10 +1,6 @@
 /* @flow */
 
-import {
-  target,
-  pushTarget,
-  popTarget
-} from './target'
+import { target, pushTarget, popTarget } from './target'
 import traverse from './helpers/traverse'
 
 let uid = 0

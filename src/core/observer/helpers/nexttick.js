@@ -1,11 +1,11 @@
 /* @flow */
 
-import {
-  handleError
-} from 'shared/fake'
+import { handleError } from 'shared/fake'
+
 
 const callbacks = []
 let pending = false
+
 
 function nextTickHandler() {
   pending = false
@@ -16,9 +16,11 @@ function nextTickHandler() {
   callbacks.length = 0
 }
 
+
 function logError(err) {
   console.error(err)
 }
+
 
 export function nextTick(cb, ctx) {
   let _resolve

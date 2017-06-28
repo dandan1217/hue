@@ -1,10 +1,6 @@
 /* @flow */
-import {
-  extend
-} from 'shared/util'
-import {
-  Dep
-} from './dep'
+import { extend } from 'shared/util'
+import { Dep } from './dep'
 
 export class Observer {
 
