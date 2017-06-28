@@ -1,6 +1,6 @@
 /* @flow */
 
-import { target, pushTarget, popTarget } from './target'
+import { pushTarget, popTarget } from './dep'
 import traverse from './helpers/traverse'
 
 let uid = 0
@@ -77,7 +77,7 @@ export default class Watcher {
   depend() {
     let i = this.deps.length
     while (i--) {
-      target.addDep(this.deps[i])
+      this.deps[i].depend()
     }
   }
 

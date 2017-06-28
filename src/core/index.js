@@ -1,4 +1,4 @@
-import Dep from './observer/dep'
-
-export { Dep }
-export * from './observer/target'
+export * from './observer/dep'
+export * from './observer/array'
+export * from './observer/watcher'
+export * from './observer/index'
