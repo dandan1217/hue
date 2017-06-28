@@ -26,14 +26,14 @@ const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
   'web-runtime-cjs': {
     entry: resolve('web/runtime.js'),
-    dest: resolve('dist/vue.cjs.js'),
+    dest: resolve('dist/hue.cjs.js'),
     format: 'cjs',
     banner
   },
   // runtime-only build (Browser)
   'web-runtime-dev': {
     entry: resolve('web/runtime.js'),
-    dest: resolve('dist/vue.umd.js'),
+    dest: resolve('dist/hue.umd.js'),
     format: 'umd',
     env: 'development',
     banner
@@ -47,7 +47,7 @@ function genConfig (opts) {
     external: opts.external,
     format: opts.format,
     banner: opts.banner,
-    moduleName: 'Vue',
+    moduleName: 'Hue',
     plugins: [
       replace({
         __VERSION__: version

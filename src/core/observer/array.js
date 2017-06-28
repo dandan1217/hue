@@ -1,10 +1,11 @@
 /* @flow */
+import { def } from 'shared/util'
 
 const arrayProto = Array.prototype
 
 export const arrayMethods = Object.create(arrayProto)
 
-[
+;[
   'push',
   'pop',
   'shift',
