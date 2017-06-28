@@ -1,5 +1,4 @@
-Vue = ()=>{
-  console.log("Hello Vue");
-}
+import Dep from './observer/dep'
 
-export default Vue
+export { Dep }
+export * from './observer/target'

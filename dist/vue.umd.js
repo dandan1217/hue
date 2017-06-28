@@ -3,9 +3,11 @@
  * (c) 2014-2017 Xiaofeng Lu
  * Released under the MIT License.
  */
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(factory((global.Vue = global.Vue || {})));
+}(this, (function (exports) { 'use strict';
 
 /**  */
 
@@ -65,3 +67,7 @@ Dep.prototype.notify = function notify () {
 exports.Dep = Dep;
 exports.pushTarget = pushTarget;
 exports.popTarget = popTarget;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
