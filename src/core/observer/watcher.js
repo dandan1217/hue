@@ -1,13 +1,17 @@
 /* @flow */
 
-import { target, pushTarget, popTarget } from './target'
+import {
+  target,
+  pushTarget,
+  popTarget
+} from './target'
 import traverse from './helpers/traverse'
 
 let uid = 0
 
 export default class Watcher {
 
-  constructor (vm, getter, cb, options) {
+  constructor(vm, getter, cb, options) {
     this.vm = vm
     vm._watchers.push(this)
     this.id = ++uid
@@ -18,7 +22,7 @@ export default class Watcher {
     this.newDeps = []
     this.depIds = new Set()
     this.newDepIds = new Set()
-    
+
     this.value = this.get()
   }
 
@@ -35,10 +39,10 @@ export default class Watcher {
 
   addDep(dep) {
     const id = dep.id
-    if(!this.newDepIds.has(id)){
+    if (!this.newDepIds.has(id)) {
       this.newDepIds.add(id)
       this.newDeps.push(dep)
-      if(!this.depIds.has(id)) {
+      if (!this.depIds.has(id)) {
         dep.addSub(this)
       }
     }
@@ -48,7 +52,7 @@ export default class Watcher {
     let i = this.deps.length
     while (i--) {
       const dep = this.deps[i]
-      if(!this.newDepIds.has(dep.id)) {
+      if (!this.newDepIds.has(dep.id)) {
         dep.removeSub(this)
       }
     }
@@ -67,7 +71,7 @@ export default class Watcher {
 
   run() {
     const value = this.get()
-    if(value !== this.value) {
+    if (value !== this.value) {
       const oldValue = this.value
       this.value = value
       this.cb.call(this.vm, value, oldValue)
@@ -82,7 +86,7 @@ export default class Watcher {
   }
 
   teardown() {
-    if(this.active) {
+    if (this.active) {
       let i = this.deps.length
       while (i--) {
         this.deps[i].removeSub(this)

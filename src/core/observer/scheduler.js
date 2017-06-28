@@ -1,6 +1,8 @@
 /* @flow */
 import nextTick from './helpers/nexttick'
-import { callHook } from 'shared/fake'
+import {
+  callHook
+} from 'shared/fake'
 
 
 const MAX_UPDATE_COUNT = 100
@@ -22,18 +24,18 @@ function resetScheduler() {
 }
 
 function flushSchedulerQueue() {
-  flushing  = true
-  queue.sort((a,b) => a.id - b.id) 
+  flushing = true
+  queue.sort((a, b) => a.id - b.id)
 
-  for(index = 0; index < queue.length; index++) {
+  for (index = 0; index < queue.length; index++) {
     let watcher = queue[index]
     let id = watcher.id
     has[id] = null
     watcher.run()
 
-    if(has[id] != null) {
+    if (has[id] != null) {
       circular[id] = (circular[id] || 0) + 1
-      if(circular[id] > MAX_UPDATE_COUNT) {
+      if (circular[id] > MAX_UPDATE_COUNT) {
         throw "inifinite update loop"
       }
     }
@@ -41,44 +43,42 @@ function flushSchedulerQueue() {
 
   callActivateHooks(activatedChildren.slice())
   callUpdateHooks(queue.slice())
-  resetScheduler() 
+  resetScheduler()
 }
 
-function callUpdateHooks (queue) { // watcher
+function callUpdateHooks(queue) { // watcher
   let i = queue.length
   while (i--) {
-    callHook(queue[i].vm, 'updated') 
+    callHook(queue[i].vm, 'updated')
   }
 }
 
-function callActivateHooks (queue) { // component
-  for(let i = 0; i < queue.length; i++) {
+function callActivateHooks(queue) { // component
+  for (let i = 0; i < queue.length; i++) {
     activeChildComponent(queue[i], true)
   }
 }
 
-export function queueActivateComponent (vm) {
+export function queueActivateComponent(vm) {
   activatedChildren.push(vm)
 }
 
 export function scheduler(watcher) {
   const id = watcher.id
-  if(!has[id]) {
+  if (!has[id]) {
     has[id] = true
-    if(!flushing) {
+    if (!flushing) {
       queue.push(watcher)
-    }else{
+    } else {
       let i = queue.length - 1
-      while(i >= 0 && queue[i].id > watcher.id) {
+      while (i >= 0 && queue[i].id > watcher.id) {
         i--
       }
       queue.splice(Math.max(i, index) + 1, 0, watcher)
     }
   }
-  if(!waiting) {
+  if (!waiting) {
     waiting = true
     nextTick(flushSchedulerQueue)
   }
 }
-
-

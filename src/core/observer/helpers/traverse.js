@@ -7,13 +7,13 @@ function traverse(val) {
 
 function _tarverse(val, seen) {
   const isA = Array.isArray(val)
-  
-  if((!isA(val) && !isObject(val)) || 
-      !Object.isExtensible(val)) {
+
+  if ((!isA(val) && !isObject(val)) ||
+    !Object.isExtensible(val)) {
     return
   }
 
-  if(val.__ob__) {
+  if (val.__ob__) {
     const depId = val.__ob__.dep.id
     seen.add(depId)
   }

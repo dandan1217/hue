@@ -1,14 +1,16 @@
 /** @flow */
 
-import { remove } from 'shared/util'
+import {
+  remove
+} from 'shared/util'
 
-let uid = 0;
+let uid = 0
 
 export default class Dep {
-  
+
   constructor() {
     this.id = uid++
-    this.subs = []
+      this.subs = []
   }
 
   addSub(sub) {
@@ -20,29 +22,29 @@ export default class Dep {
   }
 
   depend() {
-    if(Dep.target) {
+    if (Dep.target) {
       Dep.target.addDep(this)
     }
   }
 
   notify() {
     const subs = this.subs.slice()
-    for(let i = 0, l = subs.length; i < l; i++) {
-      subs[i].update();
+    for (let i = 0, l = subs.length; i < l; i++) {
+      subs[i].update()
     }
   }
 }
 
 
-Dep.target = null;
+Dep.target = null
 
-const targetStack = [];
+const targetStack = []
 
 export function pushTarget(_target) {
-  if(Dep.target){
+  if (Dep.target) {
     targetStack.push(Dep.target)
   }
-  target = _target;
+  target = _target
 }
 
 export function popTarget() {
