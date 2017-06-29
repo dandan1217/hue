@@ -11,12 +11,6 @@ export function isObject(obj) {
   return obj !== null && typeof obj === 'object'
 }
 
-export function extend(obj, keys, values) {
-  for (let i = 0, l = keys.length; i < l; i++) {
-    obj[keys[i]] = values[i]
-  }
-}
-
 export function def(obj, key, val, enumerable) {
   Object.defineProperty(obj, key, {
     value: val,
@@ -24,4 +18,14 @@ export function def(obj, key, val, enumerable) {
     writable: true,
     configurable: true
   })
+}
+
+const _hasOwnProperty = Object.prototype.hasOwnProperty
+export function hasOwn(obj, key) {
+  return _hasOwnProperty.call(obj, key)
+}
+
+const _toString = Object.prototype.toString
+export function isPlainObject(obj) {
+  return _toString.call(obj) === '[object Object]'
 }

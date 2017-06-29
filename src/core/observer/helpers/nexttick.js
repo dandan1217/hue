@@ -22,7 +22,7 @@ function logError(err) {
 }
 
 
-export function nextTick(cb, ctx) {
+export default function nextTick(cb, ctx) {
   let _resolve
   callbacks.push(() => {
     if (cb) {
@@ -36,11 +36,11 @@ export function nextTick(cb, ctx) {
     }
   })
 
-  let p = Promise.resolve()
-  let timerFunc = p.then(nextTickHandler).catch(logError)
+  
   if (!pending) {
+    let p = Promise.resolve()
     pending = true
-    timerFunc()
+    p.then(nextTickHandler).catch(logError)
   }
   if (!cb) {
     return new Promise((resolve, reject) => {

@@ -7,7 +7,8 @@
     "build": "npm run dev && npm run dev:umd",
     "dev": "rollup -c build/config.js --environment TARGET:web-runtime-cjs",
     "dev:umd": "rollup -c build/config.js --environment TARGET:web-runtime-dev",
-    "test": "karma start build/karma.unit.config.js"
+    "test": "karma start build/karma.unit.config.js",
+    "clean": "rm dist/hue.*.js"
   },
   "author": "luxiaofeng",
   "license": "MIT",

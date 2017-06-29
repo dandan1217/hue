@@ -61,7 +61,7 @@ export function queueActivateComponent(vm) {
   activatedChildren.push(vm)
 }
 
-export function scheduler(watcher) {
+export function schedule(watcher) {
   const id = watcher.id
   if (!has[id]) {
     has[id] = true

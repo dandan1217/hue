@@ -1,6 +1,14 @@
 /* @flow */
-import { extend, isObject } from 'shared/util'
+import {
+  hasOwn,
+  def,
+  isObject,
+  isPlainObject
+} from 'shared/util'
+import { arrayMethods } from './array'
 import Dep from './dep'
+
+const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 
 export class Observer {
 
@@ -8,10 +16,10 @@ export class Observer {
     this.value = value
     this.dep = new Dep()
     this.vmCount = 0
-    value.__ob__ = this
+    def(value, '__ob__', this)
 
     if (Array.isArray(value)) {
-      extend(value, arrayKeys, arrayMethods) // make array itself active
+      copyArgument(value, arrayKeys, arrayMethods) // make array itself active
       this.observeArray(value) // make array children active
     } else {
       this.walk(value) // 
@@ -69,7 +77,7 @@ export function defineReactive(obj, key, val) {
       if (Dep.target) {
         dep.depend()
         if (childOb) {
-          childOb.Depend()
+          childOb.dep.depend()
         }
         if (Array.isArray(value)) {
           dependArray(value)
@@ -141,5 +149,12 @@ function dependArray(arr) {
     if (Array.isArray(val)) {
       dependArray(val)
     }
+  }
+}
+
+function copyArgument(obj, keys, values) {
+  for(let i = 0, l = keys.length; i < l; i++) {
+    const key = keys[i]
+    def(obj, key, values[i])
   }
 }

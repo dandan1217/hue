@@ -2,6 +2,7 @@
 
 import { pushTarget, popTarget } from './dep'
 import traverse from './helpers/traverse'
+import { schedule } from './scheduler'
 
 let uid = 0
 
@@ -58,11 +59,11 @@ export default class Watcher {
     tmp.clear()
     tmp = this.deps
     this.deps = this.newDeps
-    this.newDeps.length = 0
+    tmp.length = 0
   }
 
   update() {
-    queueWatcher(this)
+    schedule(this)
   }
 
   run() {

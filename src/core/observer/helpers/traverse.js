@@ -4,7 +4,7 @@ import { isObject } from 'shared/util'
 
 const seenObjects = new Set()
 
-function traverse(val) {
+export default function traverse(val) {
   _tarverse(val, seenObjects)
   seenObjects.clear()
 }
@@ -25,7 +25,7 @@ function _tarverse(val, seen) {
   if (isA) {
     let i = val.length
     while (i--) {
-      _tarverse(val[i])
+      _tarverse(val[i], seen)
     }
   } else {
     let keys = Object.keys(val)
@@ -36,5 +36,3 @@ function _tarverse(val, seen) {
   }
 
 }
-
-export default traverse
