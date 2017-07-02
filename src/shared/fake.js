@@ -9,5 +9,5 @@ export function activeChildComponent(vm) {
 }
 
 export function handleError(err, vm, info) {
-  console.err(err, vm, info)
+  console.error(err, vm, info)
 }

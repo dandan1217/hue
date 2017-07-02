@@ -4,16 +4,17 @@ import { handleError } from 'shared/fake'
 
 
 const callbacks = []
-let pending = false
+const p = Promise.resolve()
 
+let pending = false
 
 function nextTickHandler() {
   pending = false
   const copies = callbacks.slice()
+  callbacks.length = 0
   for (let i = 0, l = copies.length; i < l; i++) {
     copies[i]()
   }
-  callbacks.length = 0
 }
 
 
@@ -38,7 +39,6 @@ export default function nextTick(cb, ctx) {
 
   
   if (!pending) {
-    let p = Promise.resolve()
     pending = true
     p.then(nextTickHandler).catch(logError)
   }

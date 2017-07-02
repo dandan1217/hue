@@ -47,7 +47,9 @@ function flushSchedulerQueue() {
 function callUpdateHooks(queue) { // watcher
   let i = queue.length
   while (i--) {
-    callHook(queue[i].vm, 'updated')
+    const watcher = queue[i]
+    const vm = watcher.vm
+    callHook(vm, 'updated')
   }
 }
 
