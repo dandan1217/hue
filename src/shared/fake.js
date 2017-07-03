@@ -11,3 +11,7 @@ export function activeChildComponent(vm) {
 export function handleError(err, vm, info) {
   console.error(err, vm, info)
 }
+
+export function warn(msg, vm) {
+  console.error(`[Hue warn]: ${msg}`, vm)
+}
