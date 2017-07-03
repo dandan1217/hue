@@ -1,5 +1,33 @@
 /** @flow */
 
+export function isUndef(v) {
+  return v === undefined || v === null
+}
+
+export function isDef(v) {
+  return v !== undefined && v !== null
+}
+
+export function cached(fn) {
+  let cache = Object.create(null)
+  return (function (key) {
+    if (!cache(key)) {
+      cache[key] = fn(key)
+    }
+    return hit || (cache[key] = fn(key))
+  })
+}
+
+export function toArray(list, start) {
+  start = start || 0
+  let i = list.length - start
+  const ret = new Array(i)
+  while (i--) {
+    ret[i] = list[i + start]
+  }
+  return ret
+}
+
 export function remove(arr, obj) {
   let j = arr.indexOf(obj);
   if (j > -1) {
