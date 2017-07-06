@@ -20,7 +20,13 @@ export default class Watcher {
     this.depIds = new Set()
     this.newDepIds = new Set()
 
-    this.value = this.get()
+    if (options) {
+      this.lazy = !!options.lazy
+    } else {
+      this.lazy = false
+    }
+    this.dirty = this.lazy
+    this.value = this.lazy ? undefined : this.get()
   }
 
   get() {
@@ -62,11 +68,20 @@ export default class Watcher {
     tmp.length = 0
   }
 
-  update() {
-    schedule(this)
+  update() { // for dep
+    if (this.lazy) {
+      this.dirty = true
+    } else {
+      schedule(this)
+    }
   }
 
-  run() {
+  evaluate() {
+    this.value = this.get()
+    this.dirty = false
+  }
+
+  run() { // for schedule
     const value = this.get()
     if (value !== this.value) {
       const oldValue = this.value

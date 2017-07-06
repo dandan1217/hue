@@ -71,7 +71,8 @@ export function schedule(watcher) {
       queue.push(watcher)
     } else {
       let i = queue.length - 1
-      while (i >= 0 && queue[i].id > watcher.id) {
+      // TODO why not binary search ?
+      while (i >= 0 && queue[i].id > watcher.id) { 
         i--
       }
       queue.splice(Math.max(i, index) + 1, 0, watcher)

@@ -70,9 +70,13 @@ function createComputedGetter(key) {
     const watcher = this._computedWatchers && this._computedWatchers[key]
     if (watcher) {
       if (watcher.dirty) {
-        watcher.evaluate()
+        // watcher.get() -> watcher.cleanDeps() -> oldDeps=>newDeps
+        // any way Dep.target = watcher
+        // don't need another depend()
+        watcher.evaluate() 
       }
       if (Dep.target) {
+        // if not dirty, add deps
         watcher.depend()
       }
       return watcher.value
