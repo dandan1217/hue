@@ -73,10 +73,10 @@ function createComputedGetter(key) {
         // watcher.get() -> watcher.cleanDeps() -> oldDeps=>newDeps
         // any way Dep.target = watcher
         // don't need another depend()
-        watcher.evaluate() 
+        watcher.evaluate()
       }
       if (Dep.target) {
-        // if not dirty, add deps
+        // if not dirty, add this watcher deps to current handering watcher
         watcher.depend()
       }
       return watcher.value
