@@ -120,6 +120,14 @@ function isInInactiveTree(vm) {
   return false
 }
 
+export function updateChildComponent(
+  vm,
+  listeners,
+  parentVnode,
+  renderChildren) {
+
+}
+
 export function activateChildComponent(vm) {
   if (vm._inactive || vm._inactive === null) {
     vm._inactive = false
@@ -142,6 +150,7 @@ export function deactiveChildComponent(vm) {
 
 export function callHook(vm, hook) {
   const handlers = vm.$options[hook]
+  console.log('callhook:', vm, hook)
   if (handlers) {
     for (let i = 0, l = handlers.length; i < l; i++) {
       handlers[i].call(vm)
