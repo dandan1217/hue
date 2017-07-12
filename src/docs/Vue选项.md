@@ -133,3 +133,35 @@ var vm = new Vue({
 })
 vm.a = 2 // -> new: 2, old: 1
 ````
+
+===
+
+## el
++ 类型: `string | HTMLElement`
++ 限制: 只是由`new`创建的实例中遵守
++ 详细:
+1. 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+2. 在实例挂载之后,元素可以用 vm.$el 访问。
+3. 所有的挂载元素都会被Vue生成的DOM替换
+
+## render
++ 类型: `(createElement: () => VNode) => VNode`
++ 详细:
+1. 接收一个createElement方法作为第一个参数创建`VNode`
+2. 如果组件是一个函数组件，Render函数会接收一个额外的`context`参数，为没有实例的函数组件提供上下文信息。
+
+## renderError
++ 类型: `(createElement: () => VNode, error: Error) => VNode`
++ 当`render`函数遭遇错误时，提供另外一种渲染输出，其错误会作为第二个参数传递给`renderError`
+＋示例
+````
+new Vue({
+  render (h) {
+    throw new Error('oops')
+  },
+  renderError (h, err) {
+    return h('pre', { style: { color: 'red' }}, err.stack)
+  }
+}).$mount('#app')
+````
+
