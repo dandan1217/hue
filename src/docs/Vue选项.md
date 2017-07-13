@@ -165,3 +165,53 @@ new Vue({
 }).$mount('#app')
 ````
 
+===
+
+## parent
++ 类型： `Vue instance`
++ 详细:
+指定已创建的实例的父实例
+
+## mixins
+`mixins`接受一个混合对象的数组。这些混合实例对象可以像正常的实例对象一样包含选项。他们将在`Vue.extend()`里选择最终使用相同的选项合并逻辑。Mixin钩子按传入顺序依次调用。
++ 示例：
+````
+var mixin = {
+  created: function () { console.log(1) }
+}
+var vm = new Vue({
+  created: function () { console.log(2) },
+  mixins: [mixin]
+})
+// -> 1
+// -> 2
+````
+
+## extends
++ 类型: `Object | Function`
++ 详细：
+允许声明扩展另一个组件（可以是一个简单的选项对象或构造函数）, 而无需使用`Vue.extend`。
+这主要是为了便于扩展单文件组件。
+与`mixins`类似，区别在于，组件自身的选项会比要扩展的源组件具有更高的优先级。
++ 示例：
+````
+var CompA = { ... }
+// 在没有调用 Vue.extend 时候继承 CompA
+var CompB = {
+  extends: CompA,
+  ...
+}
+````
+
+## provide/inject
++ 类型:
+  - provide: `Object | ()->Object`
+  - inject: `Array<string>|{[key:string]:string | Symbol}`
++ 详细:
+1. 这对选项需要一起使用，以允许一个祖先组件向所有子孙后代注入一个依赖。不论组件的层次有多深，并在上下游关系成立的时间里始终生效。
+
+2. provide选项应该是一个对象或返回一个对象的函数，该对象包含可注入其子孙的属性。
+
+3. `provide` 与 `indect` 绑定并不是可响应的。然而如果传入的是一个可监听的对象，那么其对象的属性还是可响应的。
+
+

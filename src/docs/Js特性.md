@@ -21,3 +21,10 @@ Object.prototype.hasOwnProperty(1, 'a') //v
 1.hasOwnProperty(undefined, 'a') // exception
 ````
 由此可见调用 `Object.prototype.hasOwnProperty` 也会更加稳定
+
+
+## ES2015 `Symbols`
+link: https://stackoverflow.com/questions/21724326/why-bring-symbols-to-javascript/22280202#22280202
+
+本意是提供js的私有属性。但目前可以通过反射来访问。`Object.getOwnPropertySymbols`。
+目前是作为唯一符号使用，从而避免属性的名字冲突。
