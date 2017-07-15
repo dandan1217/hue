@@ -9,6 +9,7 @@ export function initMixin(Hue) {
     vm._uid = uid++
     vm._isHue = true
     vm._self = vm
+    vm.$options = options || {}
     initEvents(vm)
   }
 }

@@ -4,7 +4,7 @@
   "description": "hue is a copy of vue, which is simplified.",
   "main": "index.js",
   "scripts": {
-    "build": "npm run dev && npm run dev:umd",
+    "build": "rollup -c build/config.js --environment TARGET:web-runtime-dev",
     "dev": "rollup -c build/config.js --environment TARGET:web-runtime-cjs",
     "dev:umd": "rollup -c build/config.js --environment TARGET:web-runtime-dev",
     "test": "karma start build/karma.unit.config.js",
