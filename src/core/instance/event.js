@@ -37,7 +37,7 @@ export function eventsMixin(Hue) {
     const vm = this
     if (Array.isArray(event)) {
       for (let i = 0, l = event.length; i < l; i++) {
-        vm.$on(event, fn)
+        vm.$on(event[i], fn)
       }
     } else {
       (vm._events[event] || (vm._events[event] = [])).push(fn)
