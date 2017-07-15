@@ -5,6 +5,16 @@ import { updateListeners } from 'vdom/helpers/update-listeners.js'
 
 let target
 
+export function initEvents(vm) {
+  vm._events = Object.create(null)
+  vm._hasHookEvent = false
+
+  const listeners = vm.$options.listeners // why vue use parentListers
+  if (listeners) {
+    updateComponentListeners(vm, listeners)
+  }
+}
+
 function add(event, fn, once) {
   if (once) {
     target.$once(event, fn)
@@ -22,7 +32,7 @@ export function updateComponentListeners(vm, listeners, oldListeners) {
   updateListeners(listeners, oldListeners || [], add, remove, vm)
 }
 
-function eventsMixin(Hue) {
+export function eventsMixin(Hue) {
   Hue.prototype.$on = function (event, fn) {
     const vm = this
     if (Array.isArray(event)) {
