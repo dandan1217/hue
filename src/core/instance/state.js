@@ -1,4 +1,23 @@
 /* @flow */
+import { observe, set, del } from 'core/observer/index.js'
+import { isReserved } from 'core/util/index'
+
+const sharedPropertyDefinition = {
+  enumerable: true,
+  configurable: true,
+  get: noop,
+  set: noop
+}
+
+export function proxy(target, sourceKey, key) {
+  sharedPropertyDefinition.get = function proxyGetter() {
+    return target[sourceKey][key]
+  }
+  sharedPropertyDefinition.set = function proxySetter(val) {
+    target[sourceKey][key] = val
+  }
+  Object.defineProperty(target, key, sharedPropertyDefinition)
+}
 
 export function initState(vm) {
   vm._watchers = []
@@ -15,9 +34,19 @@ export function initState(vm) {
 
 function initData(vm) {
   let data = vm.$options.data
-  data = vm._data = data || {}
+  data = vm._data = typeof data === 'Function'
+    ? data.call(vm)
+    : data || {}
   if (!isPlainObject(data)) {
-    throw new Error("data should be plain object", vm)
+    throw new Error('data should be plain object', vm)
+  }
+  const keys = Object.keys(data)
+  let key
+  for (let i = 0, l = keys.length; i < l; i++) {
+    key = keys[i]
+    if (!isReserved(keys[i])) {
+      proxy(vm, '_data', key)
+    }
   }
   observe(data, true)
 }
@@ -32,21 +61,15 @@ function initComputed(vm, computed) {
     if (getter === undefined) {
       throw new Error(`No getter function for computed property "${key}".`)
     }
-  }
-  watchers[key] = new Watcher(vm, getter, noop, computedWatchersOptions)
-  if (!(key in vm)) {
-    defineComputed(vm, key, userDef)
-  } else {
-    throw new Error(`The computed property "${key}" is already defined`, vm)
+    watchers[key] = new Watcher(vm, getter, noop, computedWatchersOptions)
+    if (!(key in vm)) {
+      defineComputed(vm, key, userDef)
+    } else {
+      throw new Error(`The computed property "${key}" is already defined`, vm)
+    }
   }
 }
 
-const sharedPropertyDefinition = {
-  enumerable: true,
-  configurable: true,
-  get: noop,
-  set: noop
-}
 
 export function defineComputed(target, key, userDef) {
   sharedPropertyDefinition.get = sharedPropertyDefinition.set = noop
@@ -85,7 +108,6 @@ function createComputedGetter(key) {
 }
 
 function initMethods(vm, methods) {
-  const props = vm.$options.props
   for (const key in methods) {
     vm[key] = methods[key] == null ? noop : bind(methods[key], vm)
     if (vm[key] == null) {

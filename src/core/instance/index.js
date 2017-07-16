@@ -1,5 +1,6 @@
 /** @flow */
 import { initMixin } from './init'
+import { stateMixin } from './state'
 import { eventsMixin } from './event'
 
 function Hue(options) {
@@ -11,5 +12,6 @@ function Hue(options) {
 
 initMixin(Hue)
 eventsMixin(Hue)
+stateMixin(Hue)
 
 export default Hue
