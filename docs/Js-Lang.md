@@ -17,7 +17,7 @@ null.hasOwnProperty(null, 'a') // exception
 Object.prototype.hasOwnProperty(undefined, 'a') //false
 undefined.hasOwnProperty(undefined, 'a') // exception
 
-Object.prototype.hasOwnProperty(1, 'a') //v
+Object.prototype.hasOwnProperty(1, 'a') //false
 1.hasOwnProperty(undefined, 'a') // exception
 ````
 由此可见调用 `Object.prototype.hasOwnProperty` 也会更加稳定
@@ -29,3 +29,23 @@ link: https://stackoverflow.com/questions/21724326/why-bring-symbols-to-javascri
 本意是提供js的私有属性。
 但目前可以通过反射`Object.getOwnPropertySymbols`来访问。
 现在的用法是作为唯一符号，避免属性的名字冲突。
+
+## `for .. in .. vs Object.keys()`
+link: https://stackoverflow.com/a/29004402
+区别在于：
+`for-in`遍历object的所有可枚举属性，包括其prototype包含的属性
+`Object.keys()`只包含object的自身属性
+
+类似于以下实现
+````
+function keys(object) {
+  let keys = []
+  let key
+  for(key in object) {
+    if(object.hasOwnProperty(key)) {
+      keys.push(key)
+    }
+  }
+  return keys
+}
+````
