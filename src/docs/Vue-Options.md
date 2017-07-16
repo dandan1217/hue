@@ -134,7 +134,7 @@ var vm = new Vue({
 vm.a = 2 // -> new: 2, old: 1
 ````
 
-===
+---
 
 ## el
 + 类型: `string | HTMLElement`
@@ -165,7 +165,7 @@ new Vue({
 }).$mount('#app')
 ````
 
-===
+---
 
 ## parent
 + 类型： `Vue instance`
