@@ -1,7 +1,9 @@
 /* @flow */
-import { observe, set, del } from 'core/observer/index.js'
+import Watcher from '../observer/watcher'
+import { observe, set, del } from '../observer/index.js'
 import { isReserved } from 'core/util/index'
-import { noop } from 'shared/util'
+import { noop, bind, isPlainObject } from 'shared/util'
+
 
 const sharedPropertyDefinition = {
   enumerable: true,

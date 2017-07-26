@@ -53,7 +53,7 @@ export function observe(value, asRootData) {
     ob = new Observer(value)
   }
   if (asRootData && ob) {
-    vm.vmCount++
+    ob.vmCount++
   }
   return ob
 }
