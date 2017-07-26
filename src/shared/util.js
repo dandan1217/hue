@@ -11,7 +11,11 @@ export function isDef(v) {
 export function bind(fn, ctx) {
   function bindFn(a) {
     const l = arguments.length
-    fn.apply(ctx, arguments.slice(1))
+    return l
+      ? l > 1
+        ? fn.apply(ctx, arguments)
+        : fn.call(ctx, a)
+      : fn.apply(ctx)
   }
   bindFn._length = fn.length
   return bindFn
