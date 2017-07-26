@@ -8,6 +8,17 @@ export function isDef(v) {
   return v !== undefined && v !== null
 }
 
+export function bind(fn, ctx) {
+  function bindFn(a) {
+    const l = arguments.length
+    fn.apply(ctx, arguments.slice(1))
+  }
+  bindFn._length = fn.length
+  return bindFn
+}
+
+export function noop() { }
+
 export function cached(fn) {
   let cache = Object.create(null)
   return (function (key) {

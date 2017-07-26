@@ -1,6 +1,7 @@
 /* @flow */
 import { observe, set, del } from 'core/observer/index.js'
 import { isReserved } from 'core/util/index'
+import { noop } from 'shared/util'
 
 const sharedPropertyDefinition = {
   enumerable: true,
