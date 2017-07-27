@@ -81,7 +81,7 @@ export function defineComputed(target, key, userDef) {
   } else {
     if (userDef.get) {
       sharedPropertyDefinition.get = userDef.cache !== false
-        ? createComtedGetter(key)
+        ? createComputedGetter(key)
         : userDef.get
     }
     if (userDef.set) {
