@@ -1,6 +1,7 @@
 /* @flow */
 import Watcher from '../observer/watcher'
 import { observe, set, del } from '../observer/index.js'
+import Dep from '../observer/dep.js'
 import { isReserved } from 'core/util/index'
 import { noop, bind, isPlainObject } from 'shared/util'
 
