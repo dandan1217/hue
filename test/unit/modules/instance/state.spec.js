@@ -1,4 +1,5 @@
 import { initState, stateMixin } from 'core/instance/state'
+import nextTick from 'core/observer/helpers/nexttick'
 
 describe('state', () => {
   let Hue
@@ -66,5 +67,44 @@ describe('state', () => {
       }
     })
     expect(vm.getContext()).toBe(vm)
+  })
+
+  it('parse exp for watchers', done => {
+    let oldA = -1
+    let newA = -1
+    let oldB = -1
+    let newB = -1
+    let vm = new Hue({
+      data: {
+        a: 1,
+        b: 1
+      },
+      watch: {
+        a: {
+          handler: function (val, oldVal) {
+            newA = val
+            oldA = oldVal
+          },
+          sync: true
+        },
+        b: function (val, oldVal) {
+          oldB = oldVal
+          newB = val
+        }
+      }
+    })
+
+    vm.a = vm.b = 2
+    expect(oldA).toBe(1)
+    expect(newA).toBe(2)
+
+    expect(oldB).toBe(-1)
+    expect(newB).toBe(-1)
+
+    nextTick().then(() => {
+      expect(oldB).toBe(1)
+      expect(newB).toBe(2)
+      done()
+    })
   })
 })
