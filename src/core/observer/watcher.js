@@ -3,27 +3,39 @@
 import { pushTarget, popTarget } from './dep'
 import traverse from './helpers/traverse'
 import { schedule } from './scheduler'
+import { parsePath } from '../util/index'
 
 let uid = 0
 
 export default class Watcher {
 
-  constructor(vm, getter, cb, options) {
+  constructor(vm, expOrFn, cb, options) {
     this.vm = vm
     vm._watchers.push(this)
     this.id = ++uid
-    this.getter = getter
     this.cb = cb
 
     this.deps = []
     this.newDeps = []
     this.depIds = new Set()
     this.newDepIds = new Set()
+    this.expression = expOrFn
+
+    if (typeof expOrFn === 'function') {
+      this.getter = expOrFn
+    } else {
+      this.getter = parsePath(expOrFn)
+      if (!this.getter) {
+        throw new Error(`Failed watching path: ${expOrFn}`)
+      }
+    }
 
     if (options) {
       this.lazy = !!options.lazy
+      this.sync = !!options.sync
+      this.deep = !!options.deep
     } else {
-      this.lazy = false
+      this.lazy = this.sync = this.deep = false
     }
     this.dirty = this.lazy
     this.value = this.lazy ? undefined : this.get()
@@ -34,7 +46,9 @@ export default class Watcher {
     let value
     const vm = this.vm
     value = this.getter.call(vm, vm)
-    traverse(value)
+    if (this.deep) {
+      traverse(value)
+    }
     popTarget()
     this.cleanDeps()
     return value
@@ -71,6 +85,8 @@ export default class Watcher {
   update() { // for dep
     if (this.lazy) {
       this.dirty = true
+    } else if (this.sync) {
+      this.run()
     } else {
       schedule(this)
     }

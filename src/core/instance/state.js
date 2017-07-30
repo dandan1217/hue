@@ -97,13 +97,9 @@ function createComputedGetter(key) {
     const watcher = this._computedWatchers && this._computedWatchers[key]
     if (watcher) {
       if (watcher.dirty) {
-        // watcher.get() -> watcher.cleanDeps() -> oldDeps=>newDeps
-        // any way Dep.target = watcher
-        // don't need another depend()
         watcher.evaluate()
       }
       if (Dep.target) {
-        // if not dirty, add this watcher deps to current handering watcher
         watcher.depend()
       }
       return watcher.value
@@ -159,10 +155,10 @@ export function stateMixin(Hue) {
   Hue.prototype.$set = set
   Hue.prototype.$delete = del
 
-  Hue.prototype.$watch = function (fn, cb, options) {
+  Hue.prototype.$watch = function (expOrFn, cb, options) {
     const vm = this
     options = options || {}
-    const watcher = new Watcher(vm, fn, cb, options)
+    const watcher = new Watcher(vm, expOrFn, cb, options)
     if (options.immediate) {
       cb.call(vm, watcher.value)
     }
